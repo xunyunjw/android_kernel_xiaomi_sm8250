@@ -252,7 +252,7 @@ static int cam_reclaim_thread_start(void)
 	if (pg_cam_reclaim->task)
 		return -EPERM;
 
-	pg_cam_reclaim->task = kthread_run(cam_reclaim_thread, NULL, "cam_reclaim");
+	pg_cam_reclaim->task = kthread_run_perf_critical(cpu_lp_mask, cam_reclaim_thread, NULL, "cam_reclaim");
 	if (IS_ERR(pg_cam_reclaim->task)) {
 		pr_err("failed to start pg_cam_reclaim thread\n");
 		return RET_FAIL;

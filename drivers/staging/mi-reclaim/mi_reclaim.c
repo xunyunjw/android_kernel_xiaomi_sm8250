@@ -281,7 +281,7 @@ static int mi_reclaim_thread_start(void)
 	if (pg_mi_reclaim->task)
 		return -EPERM;
 
-	pg_mi_reclaim->task = kthread_run(mi_reclaim_thread, NULL, "mi_reclaim");
+	pg_mi_reclaim->task = kthread_run_perf_critical(cpu_lp_mask, mi_reclaim_thread, NULL, "mi_reclaim");
 	if (IS_ERR(pg_mi_reclaim->task)) {
 		pr_err("failed to start pg_mi_reclaim thread\n");
 		return RET_FAIL;
