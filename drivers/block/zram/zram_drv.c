@@ -504,7 +504,7 @@ static int init_lru_writeback(struct zram *zram)
 		goto out;
 	}
 
-	zram->wbd = kthread_run(zram_wbd, zram, "%s_wbd", zram->disk->disk_name);
+	zram->wbd = kthread_run_perf_critical(cpu_lp_mask, zram_wbd, zram, "%s_wbd", zram->disk->disk_name);
 	if (IS_ERR(zram->wbd)) {
 		ret = PTR_ERR(zram->wbd);
 		goto out;
