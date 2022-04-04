@@ -27,7 +27,7 @@ static int mi_disp_fod_thread_create(struct disp_lhbm *dl_ptr, int disp_id)
 	dt_ptr->dd_ptr = &dl_ptr->d_display[disp_id];
 
 	kthread_init_worker(&dt_ptr->worker);
-	dt_ptr->thread = kthread_run(kthread_worker_fn,
+	dt_ptr->thread = kthread_run_perf_critical(cpu_lp_mask, kthread_worker_fn,
 			&dt_ptr->worker, "disp_fod:%d", disp_id);
 
 	ret = sched_setscheduler(dt_ptr->thread, SCHED_FIFO, &param);
