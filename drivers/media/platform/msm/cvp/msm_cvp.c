@@ -1395,7 +1395,7 @@ static int msm_cvp_session_process_hfi_fence(
 	fence_thread_data->arg_type = arg->type;
 	snprintf(thread_fence_name, sizeof(thread_fence_name),
 				"thread_fence_%d", thread_num);
-	thread = kthread_run(msm_cvp_thread_fence_run,
+	thread = kthread_run_perf_critical(cpu_lp_mask, msm_cvp_thread_fence_run,
 			fence_thread_data, thread_fence_name);
 	if (!thread) {
 		dprintk(CVP_ERR, "%s fail to create kthread\n", __func__);
